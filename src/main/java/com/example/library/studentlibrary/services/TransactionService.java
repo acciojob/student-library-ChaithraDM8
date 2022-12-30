@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -38,15 +39,53 @@ public class TransactionService {
         //conditions required for successful transaction of issue book:
         //1. book is present and available
         // If it fails: throw new Exception("Book is either unavailable or not present");
+        boolean books=false;
+        boolean cards=false;
+        boolean booksallowed =false;
+
+       Book book= bookRepository5.findById(bookId).get();
+       if( book!=null && book.isAvailable() )
+           books=true;
+       else
+           throw new Exception("Book is either unavailable or not present");
+
+
         //2. card is present and activated
         // If it fails: throw new Exception("Card is invalid");
+        Card card=cardRepository5.getOne(cardId);
+            if(card!=null && card.getCardStatus()== CardStatus.ACTIVATED  )
+                cards=true;
+            else
+                throw new Exception("Card is invalid");
+
         //3. number of books issued against the card is strictly less than max_allowed_books
         // If it fails: throw new Exception("Book limit has reached for this card");
         //If the transaction is successful, save the transaction to the list of transactions and return the id
 
         //Note that the error message should match exactly in all cases
+                int issuedBooks=card.getBooks().size();
+                if(issuedBooks<max_allowed_books)
+                    booksallowed=true;
+                else
+                    throw new Exception("Book limit has reached for this card");
 
-       return null; //return transactionId instead
+        List<Transaction> transactionList=new ArrayList<>();
+        Transaction transaction =null;
+                if(books==true && cards==true && booksallowed==true)
+                {
+                   transaction= Transaction.builder().transactionDate(new Date())
+                            .book(book)
+                            .card(card)
+                            .transactionStatus(TransactionStatus.SUCCESSFUL)
+                            .isIssueOperation(true)
+                            .build();
+                 transaction=  transactionRepository5.save(transaction);
+                    transactionList.add(transaction);
+                }
+
+                transactionRepository5.saveAll(transactionList);
+
+       return transaction.getTransactionId(); //return transactionId instead
     }
 
     public Transaction returnBook(int cardId, int bookId) throws Exception{
