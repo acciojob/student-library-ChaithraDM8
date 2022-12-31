@@ -1,7 +1,10 @@
-package com.driver.models;
+package com.example.library.studentlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,11 +14,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Builder
-@ToString
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
+@Builder
 public class Transaction {
 
     @Id
@@ -23,18 +23,6 @@ public class Transaction {
     private int id;
 
     private String transactionId = UUID.randomUUID().toString(); // externalId
-
-    private int fineAmount;
-
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean isIssueOperation;
-
-    @Enumerated(value = EnumType.STRING)
-    private TransactionStatus transactionStatus;
-
-    @CreationTimestamp
-    private Date transactionDate;
-
 
     @ManyToOne
     @JoinColumn
@@ -46,5 +34,15 @@ public class Transaction {
     @JsonIgnoreProperties("transactions")
     private Book book;
 
+    private int fineAmount;
+
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isIssueOperation;
+
+    @Enumerated(value = EnumType.STRING)
+    private TransactionStatus transactionStatus;
+
+    @CreationTimestamp
+    private Date transactionDate;
 }
 

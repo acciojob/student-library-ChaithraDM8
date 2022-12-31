@@ -1,57 +1,50 @@
-package com.driver.controller;
+package com.example.library.studentlibrary.controller;
 
-import com.driver.models.Student;
-import com.driver.services.StudentService;
+import com.example.library.studentlibrary.models.Student;
+import com.example.library.studentlibrary.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//Add required annotations
 @RestController
+@RequestMapping("/student")
 public class StudentController {
-
 
     @Autowired
     StudentService studentService;
-
     //Add required annotations
-    @GetMapping("/student/studentByEmail")
+    @GetMapping("/studentByEmail")
     public ResponseEntity getStudentByEmail(@RequestParam("email") String email){
-
-        //return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
-        return new ResponseEntity<>(studentService.getDetailsByEmail(email), HttpStatus.OK);
+        studentService.getDetailsByEmail(email);
+        return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @GetMapping("/student/studentById")
+    @GetMapping("/studentById")
     public ResponseEntity getStudentById(@RequestParam("id") int id){
-
-        // return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
-        return new ResponseEntity(studentService.getDetailsById(id), HttpStatus.OK);
+    studentService.getDetailsById(id);
+        return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @PostMapping("/student")
+    @PostMapping
     public ResponseEntity createStudent(@RequestBody Student student){
         studentService.createStudent(student);
-
         return new ResponseEntity<>("the student is successfully added to the system", HttpStatus.CREATED);
     }
 
     //Add required annotations
-    @PutMapping("/student")
+    @PutMapping
     public ResponseEntity updateStudent(@RequestBody Student student){
-
-        studentService.updateStudent(student);
+       studentService.updateStudent(student);
         return new ResponseEntity<>("student is updated", HttpStatus.ACCEPTED);
     }
 
     //Add required annotations
-    @DeleteMapping("student")
+    @DeleteMapping
     public ResponseEntity deleteStudent(@RequestParam("id") int id){
-        studentService.deleteStudent(id);
-
+            studentService.deleteStudent(id);
         return new ResponseEntity<>("student is deleted", HttpStatus.ACCEPTED);
     }
 
