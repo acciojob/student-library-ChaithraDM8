@@ -1,9 +1,7 @@
-package com.example.library.studentlibrary.models;
+package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,15 +13,14 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
+@ToString
+@Data
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("card")
-    private Student student;
 
     @CreationTimestamp
     private Date createdOn;
@@ -37,6 +34,10 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("card")
     private List<Book> books;
+
+    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("card")
+    private Student student;
 
     public Card(){
         this.cardStatus = CardStatus.ACTIVATED;

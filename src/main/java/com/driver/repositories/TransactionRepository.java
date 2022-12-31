@@ -1,12 +1,14 @@
-package com.example.library.studentlibrary.repositories;
+package com.driver.repositories;
 
-import com.example.library.studentlibrary.models.Transaction;
-import com.example.library.studentlibrary.models.TransactionStatus;
+import com.driver.models.TransactionStatus;
+import com.driver.models.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
     // sort on the basis of time to get the latest issual date

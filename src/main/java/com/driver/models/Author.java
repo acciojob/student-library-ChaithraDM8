@@ -1,20 +1,24 @@
-package com.example.library.studentlibrary.models;
+package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
 
     @Column(unique = true)
@@ -28,6 +32,13 @@ public class Author {
     private List<Book> booksWritten;
 
     public Author() {
+    }
+
+    public Author(String name, String email, int age, String country) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.country = country;
     }
 
 }
