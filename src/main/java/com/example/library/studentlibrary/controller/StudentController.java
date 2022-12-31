@@ -37,7 +37,7 @@ public class StudentController {
     //Add required annotations
     @PutMapping
     public ResponseEntity updateStudent(@RequestBody Student student){
-studentService.updateStudent(student);
+       studentService.updateStudent(student);
         return new ResponseEntity<>("student is updated", HttpStatus.ACCEPTED);
     }
 
